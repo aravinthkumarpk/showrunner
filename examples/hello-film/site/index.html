@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>hello film</title>
+<style>
+  html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; background: #26303d; }
+  body { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; color: #f3f4f6; }
+  #line { position: absolute; left: 160px; top: 430px; font-size: 96px; font-weight: 600; letter-spacing: -0.02em; white-space: pre; }
+  #caret { display: inline-block; width: 6px; height: 96px; background: #7dd3fc; vertical-align: -14px; margin-left: 6px; }
+  #card { position: absolute; left: 160px; top: 600px; padding: 22px 34px; border-radius: 18px; background: #f3f4f6; color: #26303d; font-size: 54px; font-weight: 700; }
+  #bar { position: absolute; left: 0; bottom: 0; height: 8px; background: #7dd3fc; }
+</style></head>
+<body>
+  <div id="line"><span id="typed"></span><span id="caret"></span></div>
+  <div id="card">showrunner</div>
+  <div id="bar"></div>
+<script>
+// A 6 second starter film that obeys the page contract in references/pipeline.md section 2:
+// window.DURATION, window.seek(t) (a pure function of t) and window.ready.
+// Beats are 0.5 s apart at 120 BPM, the same as make_score.py.
+const DURATION = 6.0;
+const T = { typeStart: 0.5, typeEnd: 2.5, cardIn: 3.0, holdEnd: 5.5 };
+const TEXT = 'Every film starts as one sentence.';
+const clamp = (x) => Math.min(1, Math.max(0, x));
+const p = (t, a, b) => clamp((t - a) / (b - a));
+const eo = (x) => 1 - Math.pow(1 - x, 3);
+
+const typed = document.getElementById('typed');
+const caret = document.getElementById('caret');
+const card = document.getElementById('card');
+const bar = document.getElementById('bar');
+const line = document.getElementById('line');
+
+function seek(t) {
+  const n = Math.round(TEXT.length * p(t, T.typeStart, T.typeEnd));
+  typed.textContent = TEXT.slice(0, n);
+  caret.style.opacity = t < T.cardIn ? 1 : 0;              // no blink: blinking is not a pure function worth keeping
+  const c = eo(p(t, T.cardIn, T.cardIn + 0.4));            // the card lands on beat 7 (3.0 s)
+  card.style.opacity = c;
+  card.style.transform = `translateY(${(1 - c) * 40}px)`;
+  line.style.transform = `translateY(${-30 * c}px)`;
+  bar.style.width = `${100 * p(t, 0, DURATION)}%`;
+  const out = p(t, T.holdEnd, DURATION);                   // fade to the background at the end
+  document.body.style.opacity = 1 - out;
+}
+window.DURATION = DURATION;
+window.seek = seek;
+window.ready = document.fonts.ready.then(() => { seek(0); return true; });
+</script>
+</body></html>

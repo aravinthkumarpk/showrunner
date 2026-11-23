@@ -31,7 +31,10 @@ export async function launch({ width, height, scale = 1, chromePath } = {}) {
     '--headless=new', '--remote-debugging-port=0', `--user-data-dir=${profile}`, `--window-size=${width},${height}`,
     '--hide-scrollbars', '--no-first-run', '--no-default-browser-check', '--disable-extensions',
     '--disable-background-networking', '--force-color-profile=srgb', '--font-render-hinting=none', '--disable-lcd-text',
-    '--allow-file-access-from-files', '--mute-audio', 'about:blank',
+    '--allow-file-access-from-files', '--mute-audio',
+    // Chrome refuses to start as root (Docker, CI, cloud boxes) unless its sandbox is off.
+    ...(process.getuid && process.getuid() === 0 ? ['--no-sandbox'] : []),
+    'about:blank',
   ], { stdio: ['ignore', 'ignore', 'pipe'] });
 
   // Chrome prints the DevTools endpoint on stderr when it picks a free port.
