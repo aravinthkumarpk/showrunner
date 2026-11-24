@@ -25,6 +25,9 @@ Moves that transfer, each with its source. Pick per beat on the board. Shot craf
 - **Closed-form springs.** A value that changes target several times is the sum of one spring per change, so it stays a pure function of t. Give two edges of one element different springs for stretch. (@twoclipping #15.)
 - **Polish the product's own parts.** Hatching, glow, connectors, ticks. In a demo, UI states the product can show are fair (rule 26).
 - **Measure the live DOM for match cuts and mascot placement**, never hard-code positions. (lemo; @twoclipping #16.)
+- **A mocked messaging app shows only what the real app can send.** Text with words, bold and emoji, and no inline images. Images with captions. At most 3 reply buttons. A button reply that echoes the button's title. Voice notes, date chips between days, a "Forwarded" label, and the real long-press menu and forward sheet. Icons go only inside sent images. Check every frame against the app's real message types (rule 40). (Film D.)
+- **Images the product sends look like sent photos**: square, one hero number, about 4 words at most, a small mark, no rows, buttons or app chrome inside. The caption carries the rest, with the time at its end (rule 41). (Film D.)
+- **One message at a time, with the camera on it.** Push in on the one bubble that matters (Film D used 2.6x, which took chat type from 29 to 44 px), and dim and blur the older bubbles. Frame the input bar and the sent bubble together so the camera does not creep after a send (rule 42).
 
 ## 2. Concept beats
 
@@ -49,6 +52,7 @@ Moves that transfer, each with its source. Pick per beat on the board. Shot craf
 - **Exactly two emphasis styles.** One accent highlight for verbs and outcomes; one contrast style for the problem word ("DIDN'T."). Hold the brand colour until the product appears. (Glaido.)
 - **The hook lands word by word on the beats.** Masked type reveals. No full stops in on-screen text. (@twoclipping #16.)
 - **Words are found by content, never by hard-coded time**, so a VO change re-times them. (mexicat.)
+- **Short lines and short bubbles.** Giant lines have at most 5 words a line and 2 lines. A chat bubble has at most 12 words, reply buttons included. Pick the plainest line that works, and offer lines as 3 or 4 pairs in a table with one pick (rules 38, 42, 50). (Film D.)
 - **Read holds.** Subtitles hold at least the larger of 1.8 s or the line plus 0.6 s. Animated text holds letters / 15 + 1.5 s (English). Title cards hold at least 4 s, unless they are a beat-cut opener the director has approved. (lemo DIRECTOR.md.) The floor under all of these, counted from when the whole line is settled on screen, is in section 7 (reading time).
 - **Text-light frames.** Models overuse text. Show, do not label. (ClaudeAnimationBase; PDoomVideo.)
 - **Type sits on the brand system**: the product's own headline and body faces and colour tokens, never a default webfont.
@@ -66,6 +70,10 @@ Only when the story needs real people or places that code cannot draw. Default i
 
 ## 6. Openings and endings
 
+- **Open on the viewer's own problem, in their own terms**, not on the product's agents asking for things (rule 34). Let it escalate to a point the viewer feels. Film C's alerts went from 27 to more than 99, the swipes slowed, and the screen dimmed and locked at 3.0 s. (Films C and D.)
+- **Hand each problem to its solver on screen.** After the turn, each alert lifts off the phone and flies to the agent or assistant that owns it, and the count drains to zero (rule 35). (Films C and D.)
+- **The turn is a bang, then a breather.** Cut the music to silence (Film C: 0.7 s before the hit), strike through the problem line, slam the answer in on the hit. Then hold one bar with nothing new in it, so the new state can be read (rule 36). (Film C.)
+- **A day as the spine.** For a day-in-the-life film, a clock carries the structure: odometer type, a hairline day line with a sun and a moon, light that moves across the day, no boxed card. Each landing sits on a beat, and mid-roll the clock steps through readable times. Every clock in frame reads the same source. Open on a stressed night and end on a calm evening (rule 39). (Film D.)
 - **Open on a place and an action**, not a title. (Dicks: "I am in a place and I'm doing a thing.") Google opens on a hand and a notebook.
 - **Plant an elephant**: something in the first 2 s that makes the viewer ask what happens next. (Dicks.)
 - **The opening is the ending's opposite.** (Dicks.)
@@ -101,6 +109,19 @@ Only when the story needs real people or places that code cannot draw. Default i
 - Text that is only texture (a scrolling log, a blurred list behind the hero) is exempt. Mark it on the board as texture.
 Why: brag's own spec rows rushed at 110+ BPM until it set this floor, and a feed viewer gets one pass at each line. The board gate in `board-format.md` and the critic gate in `critic.md` check it.
 
+**Messages in a mocked app** (Film D): each message stays fully readable for 0.3 s a word plus 1 s, one after another. Measure it in the page and keep the table described in `board-format.md`. These holds set the film's length: Film D's readable board ran 67 s against a 54 s brief, and tightening every transition later saved only 0.5 s (rules 42, 44).
+
+**Motion pace** (Film D, after "laggard" on an approved cut). Snappy moves and full holds go together:
+- Transitions and camera moves take 250 to 450 ms with a strong ease-out.
+- Push-ins land in about 400 ms (an exponential with a time constant of about 0.1 s), then drift under 2% through the hold, so nothing fully freezes.
+- Message pops take about 200 ms: scale 0.96 to 1, plus a fade.
+- Clock rolls take 700 to 900 ms, step through readable times, and land on the beat.
+- Characters move in about 450 ms with a small overshoot and settle.
+- No dead air between beats, and no black gap before the end card.
+Measured on Film D, the average transition went from 0.393 to 0.326 s across 91 moves (rule 46).
+
+**Formats for messaging apps.** A 16:9 film plays about 400 px wide inside a chat, where chat text falls to about 9 px. Make a 9:16 cut from the same timeline with its own layout: the giant line above the phone, a small clock in a corner, the phone pushed in (2.75x on Film D), chat text at 44 to 48 px, and every label at least 30 px. Run every gate on both cuts (rule 45).
+
 **Cue locks** (brag, `references/step-3-compose.md` and `references/audio.md`):
 - Lock only 1 to 3 strong music cues per film (a drop, a swell, an accent) to the biggest moments: the turn, the hero reveal, the mark landing.
 - A major reveal may move up to 0.15 s toward a strong cue. A smaller entrance may move up to 0.10 s toward a beat. Never further.
@@ -134,4 +155,6 @@ Template tells the director and the best references reject. Add to it per film i
 - Home-made gradients when the product has a real one (rule 15).
 - Constant easing on every move. (Vault note `remotion-vs-hyperframes-agentic-video.md`: "constant easing is the AI tell".)
 - Default crossfades. Every seam is a designed transition or a cut on action. (ClaudeAnimationBase.) A plain crossfade between two busy layouts makes a muddy double image at its midpoint: stagger it (old content out, then new content in) or dip through the background. (brag.)
+- A boxed clock card, and a clock that blurs past unreadable mid-roll (rule 39). (Film D.)
+- Rich cards, widgets or inline icons inside a mocked chat, when the real app cannot send them (rule 40). (Film D.)
 - Waveforms, equaliser bars, musical notes, strobing, and text that scales with the music. Audio-reactive means a subtle glow or presence on brand elements only. (brag.)

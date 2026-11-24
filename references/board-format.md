@@ -35,8 +35,39 @@ node scripts/board.mjs <film>/board/board-v2.json
 3. Check alignment, highlights and finish on every still (rule 17). Run the `impeccable` critique on the frames if anything looks generic.
 4. Read the words on every panel against the board JSON and against the real product.
 5. Check that each panel's on-screen words fit their hold. Time the hold from when the whole line is settled to when it starts to leave, and compare: a short label needs at least 0.8 s, a sentence about 0.3 s per word (at least 1.2 s). Fast in, then hold; never fast in, then gone. A panel whose words do not fit gets a longer hold, fewer words, or a staggered reveal that holds the full set. Text that is only texture is exempt; say so in the panel's `words` field. The full rule is in `techniques.md` section 7. Source: brag (github.com/latent-spaces/brag, MIT), `references/step-2-plan.md`. Why: the board is the cheapest place to find a line that flashes past, and a feed viewer gets one pass at it.
-6. If a panel locks to a music cue, say so in its `sound` field (`cue lock: beat 12`). Use 1 to 3 cue locks per film (`techniques.md` section 7).
-7. Open the PNG and look at it yourself.
+6. For a film with chat messages or more than a few lines of text, attach the reading-time table and the legibility table below, measured on the current timeline. A row that fails is fixed on this board, before any cut. On Film D a board went out with nine messages held too briefly, flagged in a note but not fixed, and the first cut came back as hard to read (rules 42 to 44).
+7. If a panel locks to a music cue, say so in its `sound` field (`cue lock: beat 12`). Use 1 to 3 cue locks per film (`techniques.md` section 7).
+8. Open the PNG and look at it yourself.
+
+## The reading-time and legibility tables
+
+Make these for any film where text carries the story: chat messages, captions or more than one giant line a beat. Measure them in the page, not by eye, and keep them in the film folder next to the board (for example `copy-vN.md`, which also lists every on-screen word in order). Make one pair of tables for every format the film ships in.
+
+**Reading time, one row per message or line:**
+
+| Message | What | Words | Readable for (s) | Needs (s) | Result |
+|---|---|---|---|---|---|
+| m1 | assistant, text: 9 orders came back last week. Want a fix? | 9 | 3.90 | 3.70 | PASS |
+| m2 | assistant, text + 2 reply buttons | 13 | 4.95 | 4.90 | PASS |
+
+- Needs: 0.3 s a word plus 1 s for a message, and the floors in `techniques.md` section 7 for stage lines.
+- Readable for: sample every 0.05 s, and count only the time the message is opaque, unblurred, inside the frame and its chat view, and not covered by a scrim, a menu or a sheet.
+- Words: leave out time stamps, and count reply buttons.
+- Giant lines get their own rows: words a line (at most 5, at most 2 lines), time on screen, time needed.
+
+**Legibility, one row per text element:**
+
+| Message | Element | Text | Size on screen (px) | Cap height (px) | Contrast (ratio, need) | Result |
+|---|---|---|---|---|---|---|
+| m5 | hero | 13 of 16 | 151.3 | 110.0 | 8.89:1, 3 | PASS |
+| m5 | image word | orders confirmed | 44.5 | 32.4 | 10.05:1, 3 | PASS |
+
+- Measure the rendered size at the middle of each hold, with the camera where it is at that moment.
+- Floors at 1080p: hero numbers at least 64 px; other words inside an image at least 28 px; chat text a cap height of at least 30 px (about a 41 px font for a typical sans). In a 9:16 cut, a chat font of at least 40 px, and every label at least 30 px.
+- Contrast comes from `scripts/contrast.mjs` at the same time.
+- Time stamps, a voice-note length and dimmed older bubbles are texture. Mark them as texture, not as passes.
+
+When the tables and the brief's length disagree, the tables win. Cut a message or show two short ones at once. Never shorten a hold (rule 44).
 
 ## Versioning rules
 
@@ -45,6 +76,7 @@ node scripts/board.mjs <film>/board/board-v2.json
 - Keep what worked. Each new version lists, in the ledger, what it kept from earlier versions (the director asked "what can we bring in from the previous version" three times on Film A).
 - "Lock the board" is the director's words, recorded verbatim in the ledger with the version. Nothing else locks it.
 - After the lock, any change to story, words, order or timing is a new board version, shown to the director, before it reaches the build. Polish inside a panel (finish, easing, glow) is not a story change.
+- A change to the brief after a cut (a new point to show, a new figure, a beat cut) goes into the ledger verbatim and becomes a new board version, locked again before the next cut. On Film D a first-cut verdict became board v8, and a change to one figure and one beat became board v9 (rule 48).
 
 ## The animatic
 
