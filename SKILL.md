@@ -25,10 +25,10 @@ Before you trust any film plan, explain from `references/learnings.md` section 9
 
 ## How to talk to the director
 
-- **Plain prose and one recommendation.** No question menus. When two answers are close, recommend one and mention the other in a clause.
+- **Plain prose and one recommendation.** No question menus. When two answers are close, recommend one and mention the other in a clause. For a line, show 3 or 4 short options in a table with your pick marked; that got the fastest answers (rule 50).
 - **Grill one question at a time**, each with your recommended answer and the evidence for it. Write the answer in the ledger before the next question.
 - **Show, do not describe.** A board image, a still, an animatic, a cut. Directors judge pictures, fast. A sound described in words is not a sound that syncs.
-- **Quote the director back exactly.** Their words go into the ledger verbatim, typos kept, because the next film learns from them.
+- **Quote the director back exactly.** Their words go into the ledger verbatim, typos kept, because the next film learns from them. A change to the brief after a build is recorded the same way and becomes a new board version, never a patch on the cut (rule 48).
 - **A craft rule is a recommendation the director can overrule.** On Film A the director waved off a missing "obstacle" beat, because a 20 second demo did not need one. Say what a rule recommends, then follow their call.
 - **Go all out on the first pass.** A one-pass output reads as low effort even when its base is right. Put that ambition into the first board, which costs nothing to make beautiful. It does not mean building before the gate.
 - Plain words, numbers instead of adjectives, no em dashes.
@@ -74,6 +74,12 @@ Run `references/grill.md`: 23 questions drawn from published storytelling craft 
 
 For a product film, recommend the real product flow as the spine and the viewer's own job as the protagonist. Do not invent a customer the viewer has no reason to care about. Check every line against the premise and against what the product does today, both ways. Over-claiming, and under-claiming from a stale doc, each cost a rewrite.
 
+Four more checks on the draft lines, from Films C and D:
+- The opening is the viewer's own problem in their own terms, not the product team's (rule 34).
+- The picture shows each problem going to whatever solves it (rule 35).
+- The beats run in order of value to the viewer, and the most valuable gets the most time (rule 37).
+- Every line is the plainest option that works (rule 38).
+
 ### Step 2. Music and grid
 
 Picture and music are made together, never layered. Pick the track before the board, so the board is timed in beats.
@@ -92,8 +98,9 @@ This is the cheap place to say no, so iterate here as much as the director wants
 - One image, 6 to 9 panels, laid on the grid. Each panel shows the frame, the time, the exact on-screen words, the tool that makes it, the sound cue and the cost. Build it with `node scripts/board.mjs board/board-vN.json`, which refuses a panel that leaves any of these out. The sheet shows the total build cost, so every board says what a yes costs.
 - For a code film, capture the panel stills from a rough timeline (`capture.mjs --stills`), so the board and the film share pixels. That rough timeline is board work at USD 0, not the build. Keep it to what the panels need.
 - For a doubtful beat, show options side by side and recommend one.
-- Each panel's on-screen words must fit their hold: a short label settled at least 0.8 s, a sentence about 0.3 s per word, counted from when the whole line is on screen. Fast in, then hold; never fast in, then gone. Texture text is exempt. Lock only 1 to 3 panels to strong music cues: a major reveal may move up to 0.15 s toward a cue, a smaller entrance up to 0.10 s toward a beat, and story and readability win over cues. Details in `references/techniques.md` section 7.
+- Each panel's on-screen words must fit their hold: a short label settled at least 0.8 s, a sentence about 0.3 s per word, counted from when the whole line is on screen. Fast in, then hold; never fast in, then gone. Texture text is exempt. A message in a mocked app holds 0.3 s a word plus 1 s. Giant lines have at most 5 words a line, and a chat bubble has at most 12. Every text element meets the pixel floors in `references/board-format.md`, and the board carries a reading-time table and a legibility table. A reading fault found here is fixed on the board, never carried into a cut (rules 42 to 44). Lock only 1 to 3 panels to strong music cues: a major reveal may move up to 0.15 s toward a cue, a smaller entrance up to 0.10 s toward a beat, and story and readability win over cues. Details in `references/techniques.md` section 7.
 - Versioning: board-v1, then v2 with a one-line changelog. Never overwrite a version. Before you show a board, re-capture the stills from the current timeline, diff the board against the last one shown, and check that nothing rejected has come back.
+- Before the lock, a second model reviews every on-screen word against the house writing rules and, for a mocked app, against what the real app can show. Apply its small edits, and bring any change to an agreed line to the director (rule 47).
 - Animatic: the stills on the real track at their grid times, or a fast 1080p render for a code film.
 - Cold-viewer retell, sound off: a fresh agent with only the frames retells the film in three sentences. Each of the six lines it misses is a story fault on the board. This test supports the director's eye and never replaces it (a Film B animatic passed it and was rejected on sight).
 
@@ -120,7 +127,11 @@ The default is the real product drawn in code. Every frame is a pure function of
 - Before any full render, look at stills from every scene and from the start, middle and end of every transition (`capture.mjs --stills`, `references/pipeline.md` section 5). A plain crossfade between two busy layouts makes a muddy double image, so stagger it (old out, then new in) or dip through the background. Run `scripts/contrast.mjs` at the same times.
 - Brand elements may follow the music subtly (glow, card presence, background warmth) from an envelope made ahead of time with `scripts/envelope.py` and sampled by time in `seek(t)`. Never waveforms, equaliser bars, strobing or text that scales. Effects sit in the score's key and space, under the music (`references/techniques.md` section 8).
 - Serve the page over http, capture with `scripts/capture.mjs`, encode with `scripts/render.sh`. Review at 1080p.
-- Use parallel agents only with the file-ownership table from PRODUCTION.md.
+- **A mocked messaging app shows only what the real app can send:** text with words, bold and emoji, images, at most 3 reply buttons, button replies that echo the button, date chips, the "Forwarded" label. Icons go only inside sent images, and sent images look like photos: square, one hero number, no app chrome (rules 40, 41).
+- **Every clock agrees.** A stage clock and the clocks in frame read one source, and a check samples them through the film. The target is 0 mismatches (rule 39).
+- **Motion pace:** transitions and camera moves of 250 to 450 ms with a strong ease-out, push-ins that land in about 400 ms and then drift under 2%, message pops of about 200 ms, clock rolls of 700 to 900 ms, and no dead air between beats. Holds stay as long as reading needs (rules 44, 46).
+- **If the film will be sent inside a messaging app, build a 9:16 cut** from the same timeline with its own layout, never a crop. A 16:9 film plays about 400 px wide in a chat (rule 45).
+- Use parallel agents only with the file-ownership table from PRODUCTION.md. If a build agent makes no file changes for about 90 minutes and no build is running, replace it with a fresh agent that resumes from the ledger, the board files and the timeline (rule 49).
 - Pick techniques per beat from `references/techniques.md`: product UI, concept, character, kinetic type, generated footage, openings and endings, timing and sound numbers.
 
 **Gate:** a 1080p cut exists and `scripts/check.py` passes, with every SKIP explained.
@@ -129,7 +140,7 @@ The default is the real product drawn in code. Every frame is a pure function of
 
 Follow `references/critic.md`.
 
-1. **Measured gates first:** assets loaded, duration, resolution, fps, frame count, loudness (-14 LUFS, -1 dBTP), no unplanned black or frozen stretch, cuts on the grid. Then the WCAG contrast gate: `node scripts/contrast.mjs --url <page> --times <board still times>,<every scene's settled time>`, 4.5:1 for normal text and 3:1 for large; UNVERIFIED is not a pass. Then, by looking at stills: every product word and number on screen matches the board and the real product, every line holds long enough to read, and every claim holds both ways.
+1. **Measured gates first:** assets loaded, duration, resolution, fps, frame count, loudness (-14 LUFS, -1 dBTP), no unplanned black or frozen stretch, cuts on the grid. Then the WCAG contrast gate: `node scripts/contrast.mjs --url <page> --times <board still times>,<every scene's settled time>`, 4.5:1 for normal text and 3:1 for large; UNVERIFIED is not a pass. Then, by looking at stills: every product word and number on screen matches the board and the real product, every line holds long enough to read, and every claim holds both ways. For a text-heavy film, re-measure the reading-time and legibility tables on the cut, in every format, and sample every clock in frame against the stage clock.
 2. **Then a separate critic**, in a fresh context, scores 7 dimensions (story, wow, motion, design, finish, sound, truth) against anchored scores. It returns 5 to 10 timecoded fixes with numbers, and at least one fix that raises the wow.
 3. **Route each fix back to the cheapest step that owns it.** Story goes to a new board version. Track goes to step 2. Timing and finish go to the build. Show the cost before any re-render.
 4. **Show the director** the cut, the gate report, the top three fixes with your recommendation, and their cost. Their verdict goes in the ledger verbatim.
@@ -154,6 +165,7 @@ The full set is in `references/learnings.md`. These are the ones that decided pa
 10. **Spend only after the director has read the prompts or a pilot has passed.** After three failed passes on one beat, question the beat, not the model. A pass cap is theirs to raise, not yours.
 11. **Review cheap, master after a yes.** 1080p to review, 4K only after approval.
 12. **Keep the good parts of earlier versions,** and never let a rejected element come back.
+13. **Readability is its own gate.** An approved story can still be unreadable. Measure every hold and every text size, in every format the film ships in, and let the holds set the length.
 
 ## Optional companions
 
@@ -186,7 +198,7 @@ sh scripts/tests/test_poster.sh
 
 | File | Read it |
 |---|---|
-| `references/learnings.md` | Before the grill, and before you show any board or cut. 33 rules from real verdicts, plus the validation gate. |
+| `references/learnings.md` | Before the grill, and before you show any board or cut. 50 rules from real verdicts, plus the validation gate. |
 | `references/grill.md` | At step 1. The question sequence, the ledger template and the gate. |
 | `references/taste-library.md` | At step 0, and when choosing a technique. Each entry says how we know it. |
 | `references/techniques.md` | At steps 3 and 5. Moves by beat type, timing numbers, sound rules and the banned list. |

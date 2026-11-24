@@ -21,7 +21,7 @@ The rules come from two real films by the author.
 - **Film A** was the real product drawn in code, cut to a score written for it, agreed board by board, and locked. Spend: USD 0.
 - **Film B** was generated before the story was agreed. It scored 11 of 12 on its own checks, was called "not coherent at all", and was abandoned after 19 cuts and about USD 78 of generation credit.
 
-`references/learnings.md` has the 33 rules that came out of the gap between them.
+`references/learnings.md` has the 33 rules that came out of the gap between them, and 17 more from two later films built the same way. Those two films added the rules on opening with the customer's own problem, readability as its own gate, vertical cuts for messaging apps, and motion pace.
 
 ## What is in the box
 
